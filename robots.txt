@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Disallow: /index.html
+Sitemap: https://jardinderamiro.netlify.app/sitemap.xml
