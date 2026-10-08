@@ -6,7 +6,3 @@
   Content-Security-Policy: default-src 'self'; img-src 'self' data: blob:; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self'; form-action 'self'; base-uri 'self'; frame-ancestors 'none'
 /assets/*
   Cache-Control: public, max-age=86400
-
-/legacy-master.html
-  X-Robots-Tag: noindex, nofollow, noarchive
-  Cache-Control: public, max-age=86400

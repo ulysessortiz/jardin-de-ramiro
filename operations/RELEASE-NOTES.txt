@@ -1,0 +1,44 @@
+JARDÍN DE RAMIRO — CUMULATIVE CANDIDATE, OCTOBER 8, 2026
+Existing project: jardinderamiro; site ID d6a3f8ef-b817-4d71-b74e-11a7a70b70a0
+Existing repository: ulysessortiz/jardin-de-ramiro; branch main
+Existing master archive name retained: jardin-de-ramiro-main.zip
+Original master remains unchanged. No new site or repository.
+
+DEPLOYMENT
+The archive preserves its jardin-de-ramiro-main/ wrapper and index.html root.
+Use the existing ZIP handling/GitHub → Netlify workflow. Include every file; index.html now references external, byte-preserved image assets.
+No build dependencies, API keys or server functions are required.
+Quote route: https://jardinderamiro.netlify.app/get-a-quote/
+
+REQUIRED ACTIVATION / RELEASE GATE
+Netlify Forms processing has been enabled on the existing site.
+The current old deployment has NO registered forms. The candidate must be deployed for Netlify to detect ramiro-quote-request.
+Add/verify a Forms email submission notification to contact@ulysessortiz.com on the existing project. Merely including a coordinator email in form fields does not configure delivery. The connector does not expose notification configuration.
+Verify a real authorized submission (including a photo), a matching dashboard record and arrival at contact@ulysessortiz.com before declaring delivery live-ready or printing cards.
+No customer records were created in production during development.
+
+PHOTO DELIVERY — SURGICAL FRONT-OFFICE REPAIR
+Uploads are decoded, validated, resized and JPEG re-encoded in the browser before submission. This strips ordinary image metadata and keeps the request below Netlify Forms limits.
+Prepared photos are now submitted as normal Netlify file-upload fields (photo-1 through photo-6), rather than encoded inside a photo-data text field. Netlify can therefore expose the uploaded files in the private Forms record and its standard submission notification workflow.
+The /operations/* paths remain blocked by _redirects and excluded from search. operations/review-requests.html is retained only as a legacy reader for any older photo-data records and is not required for new requests.
+After deployment, verify a real authorized photo submission appears in the Netlify record and that the notification sent to contact@ulysessortiz.com includes practical access to the uploaded file(s).
+
+VERIFIED BUSINESS FACTS
+Existing source verifies Orange County and nearby communities; it lists no specific cities or ZIP coverage. Site feedback is conditional and promises no availability.
+Existing approved call/text destination retained: +1-714-574-8095.
+User confirmed coordinator email: contact@ulysessortiz.com.
+No rates, credentials, experience years, testimonials, project cities or before-and-after pairings invented.
+Ramiro determines actual scope and price. Ulysess coordinates customer care.
+
+PROTECTION
+All 13 unique existing embedded image payloads are extracted without changing decoded bytes. Original image compositions preserved. Image SHA-256 records in integrity-baseline.json.
+Established visual tokens and original CSS retained in assets/base.css; presentation refinements layered in assets/evolution.css.
+Existing bilingual language storage key and original switching behavior retained with safe storage handling. The former query-string-driven success message was removed; success requires a confirmed response from form handling.
+Review test-results.json for actual executed checks and limitations.
+
+PUBLIC-FACING HUMANITY RESTORATION PASS — 2026-10-08
+Re-authored the public experience to restore the original warm, personal Jardin de Ramiro voice while retaining the premium navigation, bilingual structure, guided quote flow, six-photo Netlify upload architecture, legal pages, accessibility, SEO, and responsive behavior.
+Removed public promotion of Ulysess Ortiz as a customer-facing personality. Ulysess remains only where appropriate for copyright/ownership and the configured contact email; customer-facing copy centers Ramiro, the garden, the work, and the customer.
+Removed defensive/internal language such as fake credentials, we do not pretend/invent, protected portfolio explanations, and system/process commentary from marketing pages.
+Repaired low-contrast/template-like process presentation with a readable organic dark-green process band and restored original heart-led language including Care you can see and A garden should feel cared for, not simply maintained.
+All extracted approved visual assets remain byte-for-byte unchanged.

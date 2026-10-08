@@ -1,0 +1,112 @@
+{
+  "baseline_sha256": "9384316291dffe63533fa77e4735e025952022f56ebce875f715dfdba6389ab5",
+  "photographs": [
+    {
+      "file": "assets/5ac5901b2d95cad6.svg",
+      "sha256": "5ac5901b2d95cad61a3a8379b3aa9d47d2f217ec6ce5d3c2bfef63040a409593",
+      "bytes": 350
+    },
+    {
+      "file": "assets/4ea06cad76e64f97.svg",
+      "sha256": "4ea06cad76e64f97652795bb0a91e07f766a071c2b30aac0cf7239a37d75baed",
+      "bytes": 446
+    },
+    {
+      "file": "assets/506a10361e1f5d85.img",
+      "sha256": "506a10361e1f5d85d8f7788d8055bd911fd438d4963dd0adb6d1be35d63ba133",
+      "bytes": 285976
+    },
+    {
+      "file": "assets/0013640acea3b790.img",
+      "sha256": "0013640acea3b790c54f281962a189d02cda01e13a1872c29ff609791ac97b4f",
+      "bytes": 208384
+    },
+    {
+      "file": "assets/bb6460ea25ae1f76.img",
+      "sha256": "bb6460ea25ae1f76cc6de40ccf598aacd7dec643d011aeefa5a28d414654a361",
+      "bytes": 272308
+    },
+    {
+      "file": "assets/21441b54a181429b.img",
+      "sha256": "21441b54a181429b87b9fb59bc8886bfd083317f62294cdcfef64ce9f4fe9639",
+      "bytes": 172768
+    },
+    {
+      "file": "assets/2ee36680e2471063.img",
+      "sha256": "2ee36680e2471063fbc3c640645bdf43235a8e3c65ae113597dc99a080a96d02",
+      "bytes": 158892
+    },
+    {
+      "file": "assets/e6b6f3d24d0113d6.img",
+      "sha256": "e6b6f3d24d0113d6861f363b2ccae11e6053c3f850b92ab4bd328762372fead8",
+      "bytes": 216734
+    },
+    {
+      "file": "assets/ec71904d6fc1a255.img",
+      "sha256": "ec71904d6fc1a255ab7a47d049a393202b8d1f56167e1265d5214bec8d37c4f9",
+      "bytes": 226430
+    },
+    {
+      "file": "assets/54557e199f8e84bd.img",
+      "sha256": "54557e199f8e84bdbfd65f9597b0f0998eaf551338f6083685127ddd55d59ed4",
+      "bytes": 236088
+    },
+    {
+      "file": "assets/13279357aea3464c.img",
+      "sha256": "13279357aea3464c6b5ef2d3355df3a266800d65a52746adbccf69e75e7c15d7",
+      "bytes": 400800
+    },
+    {
+      "file": "assets/56f661f761cf380b.img",
+      "sha256": "56f661f761cf380b1a65231f765aaf20b5cf0e7d0c51cc344592181fc1db0e9f",
+      "bytes": 190660
+    },
+    {
+      "file": "assets/360817c1a12718cc.png",
+      "sha256": "360817c1a12718cc5f6f594d29cba18efa4bfe719f70fc7368d8ddf59a7417f5",
+      "bytes": 1466
+    }
+  ],
+  "original_css_sha256": "dd56964dcc3b6637d88f57033617b3463e7b98573192cb6e5ef1deee412b0640",
+  "final_files": {
+    "404.html": "878b1bc968f2e10a630ca3c42cad7cde2fd50c3ce90e1555cb134451b5063cb0",
+    "_headers": "f67456c8713832144e0f8c6cda3d294fe1460c811a403183457663cd7d08b3a8",
+    "_redirects": "59654a4e5eaeba125d708db5c8996ac16c311243429dc5b61e4bce1b2208a7c8",
+    "about/index.html": "e01a83d7d03283eb53d2eee490c53b1ab1109c6991d2fe7a4d612d217344e475",
+    "accessibility/index.html": "9292a801658f16ad25404712128efa195cd4f5cad4ec5e008367ebf76918f365",
+    "assets/0013640acea3b790.img": "0013640acea3b790c54f281962a189d02cda01e13a1872c29ff609791ac97b4f",
+    "assets/13279357aea3464c.img": "13279357aea3464c6b5ef2d3355df3a266800d65a52746adbccf69e75e7c15d7",
+    "assets/21441b54a181429b.img": "21441b54a181429b87b9fb59bc8886bfd083317f62294cdcfef64ce9f4fe9639",
+    "assets/2ee36680e2471063.img": "2ee36680e2471063fbc3c640645bdf43235a8e3c65ae113597dc99a080a96d02",
+    "assets/360817c1a12718cc.png": "360817c1a12718cc5f6f594d29cba18efa4bfe719f70fc7368d8ddf59a7417f5",
+    "assets/4ea06cad76e64f97.svg": "4ea06cad76e64f97652795bb0a91e07f766a071c2b30aac0cf7239a37d75baed",
+    "assets/506a10361e1f5d85.img": "506a10361e1f5d85d8f7788d8055bd911fd438d4963dd0adb6d1be35d63ba133",
+    "assets/54557e199f8e84bd.img": "54557e199f8e84bdbfd65f9597b0f0998eaf551338f6083685127ddd55d59ed4",
+    "assets/56f661f761cf380b.img": "56f661f761cf380b1a65231f765aaf20b5cf0e7d0c51cc344592181fc1db0e9f",
+    "assets/5ac5901b2d95cad6.svg": "5ac5901b2d95cad61a3a8379b3aa9d47d2f217ec6ce5d3c2bfef63040a409593",
+    "assets/base.css": "dd56964dcc3b6637d88f57033617b3463e7b98573192cb6e5ef1deee412b0640",
+    "assets/bb6460ea25ae1f76.img": "bb6460ea25ae1f76cc6de40ccf598aacd7dec643d011aeefa5a28d414654a361",
+    "assets/e6b6f3d24d0113d6.img": "e6b6f3d24d0113d6861f363b2ccae11e6053c3f850b92ab4bd328762372fead8",
+    "assets/ec71904d6fc1a255.img": "ec71904d6fc1a255ab7a47d049a393202b8d1f56167e1265d5214bec8d37c4f9",
+    "assets/evolution.css": "a346cc05f7346d511c94a236b87c6d9716a0ddd600b5a149067424344fd5b173",
+    "assets/language.js": "d64fed2c57f40ba86b4607d6f6fcb6533dfe16c74e5a6d62844e60058c9aec27",
+    "assets/quote.js": "31936391ac0bce6429356d71c496b1bde4a56934041f938b7acb1b1da8317525",
+    "contact/index.html": "c3313251954589135745cbdcfcb7f19f74139210384379fe50142125fd824884",
+    "faq/index.html": "bdb786562454268d0c889fc8d199a83d9c981e9f8503eae04f91c301b99dad26",
+    "get-a-quote/index.html": "c0a161ea967a3e605efb53df3b6c47844ea400e0c5cf7f768f076a230944fec9",
+    "index.html": "49d8114a8744cd71cdb846d7bfbaed395a4df12b36318df6ebab556a1ad0638f",
+    "operations/RELEASE-NOTES.txt": "43100797e640bad1ea3b9052a74d1cc4abdb5b06d8d03faf78746584b5d776e2",
+    "operations/review-requests.html": "a3ca16560e7cdca286ea347ed31abc9d9eca6ae553e78a22376507de7eaf8aaf",
+    "operations/test-results.json": "b4d6ecdb234dc073fcad37c99f9780787170f5fdf5fb9ecda9ef6abf7c3a1781",
+    "our-work/index.html": "59bf5cf118ddb79a0c21b9226f06306dc1524a8dedffd05d7c7390738d8fe15e",
+    "privacy/index.html": "5c0e236f27c0437dd1106a38a0b2e63cc829771acc5147254f3aca8497f9680f",
+    "quote-terms/index.html": "6c030e7ad7d6521e901d4722c0e9c436d47b80443b4e9c1ce0ad089ec8cdf279",
+    "request-received/index.html": "200afe7ee504fb1efc9e4f7acf8ec05f09ba50cc3a8bbeafd6e7c2c5bd93c84b",
+    "robots.txt": "2dba710b53c7e4271241185f660b2a5a5c8a3718f45d5822c8ba9a8fe82ba757",
+    "service-area/index.html": "9622386f81bc9e227210347b01ec3107fda242f2d2c2baa18005a539227b94f7",
+    "services/index.html": "aae0e89e748cc6e54676854cf0d9535de2db75c97f0ec7f524c7cf055fcec1ea",
+    "sitemap.xml": "659bbad74c071d3fc0b38895af8784535607726d7d7616a6ae204fdb95e4bd10",
+    "terms/index.html": "ce2d338bddd248277fc37a226606488931833e6408d4dcc98650064a3d2aafff"
+  },
+  "humanity_restoration_pass": "2026-10-08"
+}
