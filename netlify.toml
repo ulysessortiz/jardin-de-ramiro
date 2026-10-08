@@ -1,6 +1,5 @@
 [build]
-  command = "rm -rf dist && mkdir -p dist && cp index.html dist/index.html && unzip -oq ramiro_site_bundle.zip -d dist"
-  publish = "dist"
+  publish = "."
 
 [[redirects]]
   from = "/"
