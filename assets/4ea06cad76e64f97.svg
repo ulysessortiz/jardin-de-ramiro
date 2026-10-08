@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Ramiro garden mark">
+  <rect width="64" height="64" rx="18" fill="#173f2d"/>
+  <path d="M31.5 48.5V28.8" fill="none" stroke="#f1e6c6" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M31.5 32.5C20.6 31.8 14 25 13.5 15.4c10-.1 17.1 6.1 18 17.1Z" fill="#93b884"/>
+  <path d="M32.2 40.7c10.8-.7 17-7.2 18.3-16.9-9.9-.2-17 6-18.3 16.9Z" fill="#dbe8c8"/>
+</svg>
