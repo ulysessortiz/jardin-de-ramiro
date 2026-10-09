@@ -138,3 +138,4 @@
 })();
 const menu=document.querySelector('.menu-button'),links=document.querySelector('#menu-links');
 if(menu&&links){menu.addEventListener('click',()=>{const open=menu.getAttribute('aria-expanded')!=='true';menu.setAttribute('aria-expanded',String(open));links.classList.toggle('open',open);});document.addEventListener('keydown',e=>{if(e.key==='Escape'){links.classList.remove('open');menu.setAttribute('aria-expanded','false');}});}
+const pulseScript=document.createElement('script');pulseScript.src='/assets/analytics.js';pulseScript.async=true;document.head.appendChild(pulseScript);
