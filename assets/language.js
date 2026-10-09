@@ -82,6 +82,19 @@
     });
   };
 
+  const nativeFetch = window.fetch.bind(window);
+  window.fetch = (input, init = {}) => {
+    const target = typeof input === 'string' ? input : input?.url || '';
+    if (target.includes('/get-a-quote/') && init.body instanceof FormData) {
+      [...init.body.entries()].forEach(([key,value]) => {
+        if (typeof value !== 'string') return;
+        const next = replaceBrand(value);
+        if (next !== value) init.body.set(key, next);
+      });
+    }
+    return nativeFetch(input, init);
+  };
+
   const setLanguage = (next) => {
     lang = supported.includes(next) ? next : 'en';
     document.body.classList.remove('lang-en','lang-es');
