@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 Disallow: /operations/
-Sitemap: https://jardinderamiro.netlify.app/sitemap.xml
+Sitemap: https://ramirolandscapingoc.com/sitemap.xml

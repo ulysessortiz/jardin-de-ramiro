@@ -3,6 +3,8 @@
   const supported = ['en','es'];
   const brand = 'Ramiro Landscaping';
   const brandReplacements = [
+    [/https?:\/\/jardinderamiro\.netlify\.app/g, 'https://ramirolandscapingoc.com'],
+    [/jardinderamiro\.netlify\.app/g, 'ramirolandscapingoc.com'],
     [/Jardín de Ramiro/g, brand],
     [/Jardin de Ramiro/g, brand],
     [/JARDÍN DE RAMIRO/g, 'RAMIRO LANDSCAPING'],
