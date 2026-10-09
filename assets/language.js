@@ -21,7 +21,8 @@
   const displayPattern = /\(657\)\s*266-9726|\(714\)\s*574-8095/g;
   let saved; try { saved = localStorage.getItem('ramiro-language'); } catch (_) {}
   const browser = (navigator.language || 'en').toLowerCase().startsWith('es') ? 'es' : 'en';
-  let lang = supported.includes(saved) ? saved : browser;
+  const requested = new URLSearchParams(window.location.search).get('lang');
+  let lang = supported.includes(requested) ? requested : (supported.includes(saved) ? saved : browser);
   const buttons = document.querySelectorAll('[data-set-lang]');
   const formLang = document.querySelector('input[name="language"]');
   const alts = document.querySelectorAll('[data-alt-en][data-alt-es]');
@@ -97,12 +98,17 @@
     return nativeFetch(input, init);
   };
 
-  const setLanguage = (next) => {
+  const setLanguage = (next, syncUrl = false) => {
     lang = supported.includes(next) ? next : 'en';
     document.body.classList.remove('lang-en','lang-es');
     document.body.classList.add(`lang-${lang}`);
     document.documentElement.lang = lang;
     try { localStorage.setItem('ramiro-language', lang); } catch (_) {}
+    if (syncUrl && window.history?.replaceState) {
+      const url = new URL(window.location.href);
+      url.searchParams.set('lang', lang);
+      window.history.replaceState(null, '', url);
+    }
     buttons.forEach(btn => btn.setAttribute('aria-pressed', String(btn.dataset.setLang === lang)));
     if (formLang) formLang.value = lang;
     alts.forEach(img => img.alt = img.dataset[`alt${lang[0].toUpperCase()+lang.slice(1)}`] || '');
@@ -113,7 +119,7 @@
   };
 
   applyBranding(document);
-  buttons.forEach(btn => btn.addEventListener('click', () => setLanguage(btn.dataset.setLang)));
+  buttons.forEach(btn => btn.addEventListener('click', () => setLanguage(btn.dataset.setLang, true)));
   setLanguage(lang);
   const year = document.querySelector('[data-year]');
   if (year) year.textContent = new Date().getFullYear();
