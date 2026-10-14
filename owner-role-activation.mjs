@@ -12,6 +12,8 @@ mkdirSync(assetDir, { recursive: true });
 
 const functionCode = `import { getUser, admin } from '@netlify/identity';
 
+export const config = { path: '/api/owner-bootstrap' };
+
 const json = (body, status = 200) => new Response(JSON.stringify(body), {
   status,
   headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' },
@@ -51,8 +53,7 @@ export default async (req) => {
 
   if (!alreadyOwner) {
     await admin.updateUser(user.id, {
-      role: 'owner',
-      app_metadata: {
+      appMetadata: {
         ...(current.appMetadata || {}),
         roles: [...currentRoles],
       },
@@ -85,10 +86,8 @@ await build({
           const result = await response.json();
           if (!result?.eligible) return;
 
-          const refreshed = await refreshSession();
-          if (Array.isArray(refreshed?.roles) && refreshed.roles.includes('owner')) {
-            window.location.reload();
-          }
+          await refreshSession();
+          window.location.reload();
         } catch (error) {
           console.error('Ramiro owner role activation failed', error);
         }
