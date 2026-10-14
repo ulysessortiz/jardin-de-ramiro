@@ -1,5 +1,5 @@
 [build]
-  command = "node apply-pass.mjs && npm run build && node auth-polish.mjs"
+  command = "node apply-pass.mjs && npm run build && node auth-polish.mjs && node identity-confirmation-fix.mjs"
   publish = "."
   functions = "netlify/functions"
 
