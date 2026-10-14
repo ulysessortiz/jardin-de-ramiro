@@ -1,0 +1,10 @@
+[build]
+  command = "node apply-pass.mjs && npm run build"
+  publish = "."
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
+
+[functions."daily-report"]
+  schedule = "15 15 * * *"
