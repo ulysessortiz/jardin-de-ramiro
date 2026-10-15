@@ -1,5 +1,5 @@
 [build]
-  command = "node verify-owner-env.mjs && node apply-pass.mjs && npm run build && node auth-polish.mjs && node identity-confirmation-fix.mjs && node owner-role-activation.mjs"
+  command = "node verify-owner-env.mjs && node apply-pass.mjs && node business-depth-pass.mjs && npm run build && node auth-polish.mjs && node identity-confirmation-fix.mjs && node owner-role-activation.mjs"
   publish = "."
   functions = "netlify/functions"
 
