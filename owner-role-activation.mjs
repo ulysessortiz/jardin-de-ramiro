@@ -26,6 +26,14 @@ const allowedEmails = () => new Set(
     .filter(Boolean)
 );
 
+const roleList = (user) => {
+  const roles = new Set([
+    ...(Array.isArray(user?.roles) ? user.roles : []),
+    ...(Array.isArray(user?.appMetadata?.roles) ? user.appMetadata.roles : []),
+  ]);
+  return [...roles];
+};
+
 export default async (req) => {
   if (req.method !== 'POST') return json({ error: 'Method not allowed' }, 405);
 
@@ -39,28 +47,45 @@ export default async (req) => {
   const email = user.email.trim().toLowerCase();
   const allowlist = allowedEmails();
   if (!allowlist.size || !allowlist.has(email)) {
-    return json({ eligible: false, promoted: false, roles: user.roles || [] });
+    return json({ eligible: false, ownerPersisted: false, roles: user.roles || [] });
   }
 
   const current = await admin.getUser(user.id);
-  const currentRoles = new Set([
-    ...(Array.isArray(current.roles) ? current.roles : []),
-    ...(Array.isArray(current.appMetadata?.roles) ? current.appMetadata.roles : []),
-  ]);
-  const alreadyOwner = currentRoles.has('owner');
-  currentRoles.add('member');
-  currentRoles.add('owner');
+  const desiredRoles = new Set(roleList(current));
+  desiredRoles.add('member');
+  desiredRoles.add('staff');
+  desiredRoles.add('owner');
 
-  if (!alreadyOwner) {
+  const before = roleList(current);
+  const needsUpdate = !before.includes('owner') || !before.includes('staff');
+
+  if (needsUpdate) {
     await admin.updateUser(user.id, {
-      appMetadata: {
+      app_metadata: {
         ...(current.appMetadata || {}),
-        roles: [...currentRoles],
+        roles: [...desiredRoles],
       },
     });
   }
 
-  return json({ eligible: true, promoted: !alreadyOwner, roles: [...currentRoles] });
+  const verified = await admin.getUser(user.id);
+  const after = roleList(verified);
+  const ownerPersisted = after.includes('owner') && after.includes('staff');
+
+  console.log(JSON.stringify({
+    event: 'ramiro_owner_bootstrap',
+    eligible: true,
+    needsUpdate,
+    ownerPersisted,
+    beforeRoles: before,
+    afterRoles: after,
+  }));
+
+  if (!ownerPersisted) {
+    return json({ error: 'Owner role did not persist', eligible: true, ownerPersisted: false, roles: after }, 500);
+  }
+
+  return json({ eligible: true, ownerPersisted: true, promoted: needsUpdate, roles: after });
 };
 `;
 
@@ -69,12 +94,36 @@ writeFileSync(`${functionDir}/owner-bootstrap.mjs`, functionCode, 'utf8');
 await build({
   stdin: {
     contents: `
-      import { getUser, refreshSession } from '@netlify/identity';
+      import { getUser, logout } from '@netlify/identity';
+
+      function showOwnerReadyMessage() {
+        if (new URLSearchParams(window.location.search).get('owner_access') !== 'ready') return;
+        const run = () => {
+          const host = document.querySelector('.rl-auth-card') || document.querySelector('main') || document.body;
+          if (document.querySelector('[data-owner-ready-message]')) return;
+          const box = document.createElement('div');
+          box.setAttribute('data-owner-ready-message', '');
+          box.style.margin = '0 0 18px';
+          box.style.padding = '14px 16px';
+          box.style.borderRadius = '14px';
+          box.style.background = 'rgba(28,105,76,.08)';
+          box.style.color = '#174f3d';
+          box.style.fontWeight = '700';
+          box.style.lineHeight = '1.5';
+          box.textContent = 'Business-owner access is activated. Sign in once more to open the private business controls.';
+          host.prepend(box);
+        };
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run, { once: true });
+        else run();
+      }
 
       async function activateOwnerRole() {
         try {
           const user = await getUser();
-          if (!user?.email) return;
+          if (!user?.email) {
+            showOwnerReadyMessage();
+            return;
+          }
           if (Array.isArray(user.roles) && user.roles.includes('owner')) return;
 
           const response = await fetch('/api/owner-bootstrap', {
@@ -82,12 +131,13 @@ await build({
             credentials: 'same-origin',
             headers: { 'accept': 'application/json' },
           });
-          if (!response.ok) return;
-          const result = await response.json();
-          if (!result?.eligible) return;
+          const result = await response.json().catch(() => null);
+          if (!response.ok || !result?.eligible || !result?.ownerPersisted) return;
 
-          await refreshSession();
-          window.location.reload();
+          // Netlify roles live in the JWT. A freshly-issued JWT is not force-refreshed
+          // by refreshSession(), so end the stale member session once after persistence.
+          await logout();
+          window.location.replace('/account/?owner_access=ready');
         } catch (error) {
           console.error('Ramiro owner role activation failed', error);
         }
