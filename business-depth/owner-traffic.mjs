@@ -79,14 +79,13 @@ const summarize = (events) => {
 };
 async function loadDays(days) {
   const s = store();
-  const rows = [];
-  for (let i=0; i<days; i++) {
-    const day = localDateKey(Date.now() - i*DAY);
-    const listing = await s.list({ prefix: `${day}/` });
-    const entries = await Promise.all((listing.blobs || []).map(({key}) => s.get(key, { type:'json', consistency:'strong' }).catch(() => null)));
-    rows.push(...entries.filter(publicEvent));
-  }
-  return rows.sort((a,b) => Number(a.ts || 0)-Number(b.ts || 0));
+  const dateKeys = Array.from({length:days},(_,i)=>localDateKey(Date.now()-i*DAY));
+  const perDay = await Promise.all(dateKeys.map(async(day)=>{
+    const listing=await s.list({prefix:`${day}/`});
+    const entries=await Promise.all((listing.blobs||[]).map(({key})=>s.get(key,{type:'json',consistency:'strong'}).catch(()=>null)));
+    return entries.filter(publicEvent);
+  }));
+  return perDay.flat().sort((a,b)=>Number(a.ts||0)-Number(b.ts||0));
 }
 
 export default async (req) => {
