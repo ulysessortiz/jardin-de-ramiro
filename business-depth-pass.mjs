@@ -10,6 +10,36 @@ const mustReplace = (text, pattern, replacement, label) => {
 copyFileSync('business-depth/account-source.mjs', 'assets/account-source.mjs');
 copyFileSync('business-depth/owner-traffic.mjs', 'netlify/functions/owner-traffic.mjs');
 
+// Finish the owner Message Center so an owner can initiate a conversation with any member account.
+const accountSourcePath='assets/account-source.mjs';
+let accountSource=readFileSync(accountSourcePath,'utf8');
+accountSource=mustReplace(
+  accountSource,
+  /  if\(section==='messages'\)\{[\s\S]*?\n  \}\n  if\(section==='billing'\)/,
+`  if(section==='messages'){
+    const rows=state.messages||[],members=(state.customers||[]).filter(c=>c.role==='member');
+    const memberOptions=members.map(c=>\`<option value="\${safe(c.user_id)}">\${safe(c.full_name||c.email)}</option>\`).join('');
+    const composer=members.length?\`<section class="panel"><p class="account-eyebrow">\${L('New private message','Nuevo mensaje privado')}</p><h2>\${L('Start or continue a customer conversation.','Inicia o continúa una conversación.')}</h2><form class="inline-form" data-form="send-message"><select name="userId" required><option value="">\${L('Choose customer account','Elige cuenta del cliente')}</option>\${memberOptions}</select><textarea class="span-4" name="message" placeholder="\${L('Write in English or Spanish. AI prepares both versions for the conversation record.','Escribe en inglés o español. La IA prepara ambas versiones para el registro.')}" required></textarea><button class="account-primary" type="submit">\${L('Send message','Enviar mensaje')}</button></form></section>\`:noData(L('Messaging starts when a customer has an account','Los mensajes empiezan cuando el cliente tiene cuenta'),L('You can still call, text or email any lead from the Leads and Customers rooms.','Todavía puedes llamar, enviar texto o correo desde Prospectos y Clientes.'),goButton(L('Open customers','Abrir clientes'),'customers'));
+    const history=rows.length?\`<div class="record-list">\${rows.map(m=>record(m.customer_name||m.customer_email||L('Customer','Cliente'),\`\${chip(m.sender_role)} \${chip(shortDate(m.created_at))}\`,\`<div class="bilingual"><div class="language-block"><small>\${L('Original','Original')}</small><p>\${safe(m.body_original)}</p></div><div class="language-block"><small>Español / English</small><p>\${safe(lang==='es'?m.body_es:m.body_en)}</p></div></div><form class="inline-form" data-form="send-message" data-user="\${safe(m.user_id)}" data-job="\${safe(m.job_id||'')}"><textarea class="span-4" name="message" placeholder="\${L('Reply. AI prepares both English and Spanish versions.','Responde. La IA prepara versiones en inglés y español.')}" required></textarea><button class="account-primary" type="submit">\${L('Send reply','Enviar respuesta')}</button></form>\`)).join('')}</div>\`:empty(L('No message history yet.','Todavía no hay historial de mensajes.'));
+    return \`<div class="owner-stack">\${composer}\${history}</div>\`;
+  }
+  if(section==='billing')`,
+  'owner first-message composer'
+);
+accountSource=mustReplace(
+  accountSource,
+  "    if(kind==='send-message') await act('send-message',{userId:form.dataset.user,message:v('message'),jobId:form.dataset.job||null});",
+  "    if(kind==='send-message') await act('send-message',{userId:form.dataset.user||v('userId'),message:v('message'),jobId:form.dataset.job||null});",
+  'message composer target'
+);
+accountSource=mustReplace(
+  accountSource,
+  "  $$('[data-action=\"message-customer\"]').forEach(b=>b.addEventListener('click',()=>{currentSection='messages';renderPortal();setTimeout(()=>{$('textarea[name=\"message\"]')?.focus()},0)}));",
+  "  $$('[data-action=\"message-customer\"]').forEach(b=>b.addEventListener('click',()=>{currentSection='messages';renderPortal();setTimeout(()=>{const sel=$('select[name=\"userId\"]');if(sel)sel.value=b.dataset.id;$('textarea[name=\"message\"]')?.focus()},0)}));",
+  'customer to message handoff'
+);
+writeFileSync(accountSourcePath,accountSource,'utf8');
+
 // 2) Add owner operating-desk styles without changing public-site styling.
 const cssPath = 'assets/account.css';
 const depthCss = readFileSync('business-depth/account-depth.css', 'utf8');
