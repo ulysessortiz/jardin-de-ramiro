@@ -17,18 +17,14 @@ jobs:
           node-version: 24
       - name: Unpack protected pass
         run: node apply-pass.mjs
-      - name: Inspect analytics and owner business source
+      - name: Inspect business schema and data constraints
         shell: bash
         run: |
-          echo '=== ANALYTICS CLIENT ==='
-          sed -n '1,260p' assets/analytics.js 2>/dev/null || true
-          echo '=== ANALYTICS FUNCTION ==='
-          sed -n '1,320p' netlify/functions/analytics-event.mjs 2>/dev/null || true
-          echo '=== ACCOUNT API TOP ==='
-          sed -n '1,360p' netlify/functions/account-api.mjs 2>/dev/null || true
-          echo '=== ACCOUNT API ANALYTICS TERMS ==='
-          grep -n -C 6 -E 'analytic|event|visit|click|qr|referrer|source|traffic|lead|intelligence|mode|finance' netlify/functions/account-api.mjs 2>/dev/null | head -n 1200 || true
-          echo '=== CORE DATA TABLES ==='
-          grep -RniE -C 4 'ramiro_analytics|ramiro_events|CREATE TABLE|visitor|session|referrer|qr|click' netlify/migrations netlify/lib 2>/dev/null | head -n 1600 || true
-          echo '=== ACCOUNT SOURCE OWNER UX ==='
-          sed -n '1,420p' assets/account-source.mjs 2>/dev/null || true
+          echo '=== MIGRATION FILES ==='
+          find netlify -maxdepth 3 -type f | sort
+          echo '=== RAMIRO MIGRATION ==='
+          for f in netlify/migrations/*ramiro* netlify/migrations/*20261014090000*; do
+            [ -f "$f" ] && { echo "--- $f ---"; cat "$f"; }
+          done
+          echo '=== JOB / DOCUMENT / PROFILE DDL ==='
+          grep -RniE -C 10 'CREATE TABLE.*ramiro_(profiles|leads|quotes|jobs|documents|payments|job_costs)|ramiro_jobs|ramiro_documents|ramiro_profiles' netlify 2>/dev/null | head -n 2400 || true
