@@ -22,9 +22,9 @@ jobs:
         run: |
           echo '=== FILE INVENTORY ==='
           find account netlify/functions assets -maxdepth 2 -type f 2>/dev/null | sort
-          echo '=== ACCOUNT FEATURE TERMS ==='
-          grep -RniE 'owner|staff|business|lead|quote|finance|contract|invoice|receipt|billing|customer|job|pipeline|mtd|ytd|command|intelligence|message' account 2>/dev/null | head -n 700 || true
+          echo '=== ACCOUNT SOURCE FEATURE TERMS ==='
+          grep -niE 'owner|staff|business|lead|quote|finance|contract|invoice|receipt|billing|customer|job|pipeline|mtd|ytd|command|intelligence|message|mode' assets/account-source.mjs 2>/dev/null | head -n 1200 || true
+          echo '=== ACCOUNT SOURCE ROLE/RENDER CONTEXT ==='
+          grep -niE -C 8 'mode.?===.?["'"']owner|mode.?===.?["'"']member|renderOwner|renderMember|owner|isOwner|staff|business portal' assets/account-source.mjs 2>/dev/null | head -n 1600 || true
           echo '=== FUNCTION FEATURE TERMS ==='
           grep -RniE 'owner|staff|business|lead|quote|finance|contract|invoice|receipt|billing|customer|job|pipeline|mtd|ytd|command|intelligence|message' netlify/functions 2>/dev/null | head -n 1000 || true
-          echo '=== ACCOUNT ROLE CONDITIONAL CONTEXT ==='
-          grep -RniE -C 5 'roles|isStaff|isOwner|owner|staff' account 2>/dev/null | head -n 1000 || true
