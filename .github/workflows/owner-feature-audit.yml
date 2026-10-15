@@ -17,14 +17,20 @@ jobs:
           node-version: 24
       - name: Unpack protected pass
         run: node apply-pass.mjs
-      - name: Inventory generated account and functions
+      - name: Inspect owner role implementation
         shell: bash
         run: |
-          echo '=== FILE INVENTORY ==='
-          find account netlify/functions assets -maxdepth 2 -type f 2>/dev/null | sort
-          echo '=== ACCOUNT SOURCE FEATURE TERMS ==='
-          grep -niE 'owner|staff|business|lead|quote|finance|contract|invoice|receipt|billing|customer|job|pipeline|mtd|ytd|command|intelligence|message|mode' assets/account-source.mjs 2>/dev/null | head -n 1200 || true
-          echo '=== ACCOUNT SOURCE ROLE/RENDER CONTEXT ==='
-          grep -niE -C 8 'mode.?===.?["'"']owner|mode.?===.?["'"']member|renderOwner|renderMember|owner|isOwner|staff|business portal' assets/account-source.mjs 2>/dev/null | head -n 1600 || true
-          echo '=== FUNCTION FEATURE TERMS ==='
-          grep -RniE 'owner|staff|business|lead|quote|finance|contract|invoice|receipt|billing|customer|job|pipeline|mtd|ytd|command|intelligence|message' netlify/functions 2>/dev/null | head -n 1000 || true
+          echo '=== CORE AUTH CONTEXT ==='
+          grep -n -C 12 -E 'authContext|isOwner|roles|requireOwner' netlify/lib/core.mjs || true
+          echo '=== IDENTITY EVENT ==='
+          cat netlify/functions/identity.mjs || true
+          echo '=== OWNER BOOTSTRAP SOURCE ==='
+          cat owner-role-activation.mjs || true
+          echo '=== ACCOUNT MODE SWITCH ==='
+          grep -n -C 8 -E "state.mode|mode:'owner'|mode:'member'|renderOwnerSection|Owner Command" assets/account-source.mjs || true
+      - name: Inspect installed Identity SDK contract
+        shell: bash
+        run: |
+          npm ci --ignore-scripts --no-audit --no-fund
+          echo '=== UPDATE USER SDK REFERENCES ==='
+          grep -Rni -C 5 -E 'updateUser|appMetadata|app_metadata' node_modules/@netlify/identity 2>/dev/null | head -n 500 || true
