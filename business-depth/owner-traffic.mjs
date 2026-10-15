@@ -1,5 +1,5 @@
 import { getStore } from '@netlify/blobs';
-import { requireOwner, json, asError } from '../netlify/lib/core.mjs';
+import { requireOwner, json, asError } from '../lib/core.mjs';
 
 const store = () => getStore({ name: 'ramiro-conversion-pulse', consistency: 'strong' });
 const DAY = 86400000;
@@ -30,7 +30,7 @@ const sessionRows = (events) => {
     row.last = Math.max(row.last || event.ts, event.ts);
     row.source = row.source === 'unknown' && event.source ? event.source : row.source;
     if (event.path && !row.pages.includes(event.path)) row.pages.push(event.path);
-    row.events.push(event.event);
+    row.events.push({name:event.event,target:event.target||''});
   }
   return [...grouped.values()].map((row) => ({
     id: row.session === 'anonymous' ? 'Anonymous' : `Visitor ${String(row.session).slice(-5).toUpperCase()}`,
@@ -39,8 +39,8 @@ const sessionRows = (events) => {
     first: row.first,
     last: row.last,
     pages: row.pages.slice(0,8),
-    pageViews: row.events.filter((x) => x === 'page_view').length,
-    actions: row.events.filter((x) => ['call_click','text_click','quote_open','quote_submitted','link_click'].includes(x)),
+    pageViews: row.events.filter((x) => x.name === 'page_view').length,
+    actions: row.events.filter((x) => ['call_click','text_click','quote_open','quote_submitted','link_click'].includes(x.name)).map((x)=>x.target?`${x.name}:${x.target}`:x.name),
     qr: qrSource(row.source)
   })).sort((a,b) => b.last-a.last);
 };
