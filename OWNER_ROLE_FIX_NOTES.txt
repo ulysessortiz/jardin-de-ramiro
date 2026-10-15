@@ -1,0 +1,14 @@
+OWNER ROLE FIX — 2026-10-14
+
+Verified production issue:
+- /api/owner-bootstrap was being invoked successfully after the route repair.
+- The admin update used camelCase appMetadata, but @netlify/identity admin.updateUser() accepts app_metadata for persisted role metadata.
+- refreshSession() does not force rotation of a freshly issued JWT, so a newly persisted role can remain invisible in the current session.
+
+Repair:
+- Persist roles with app_metadata.roles.
+- Assign member + staff + owner only to emails in RAMIRO_STAFF_EMAILS.
+- Read the user back with admin.getUser() and fail if owner/staff did not persist.
+- After successful first-time promotion, end the stale member session once and send the user back to /account/ for one clean sign-in, which issues a new JWT carrying the owner role.
+- Regular member accounts are unaffected.
+- No public homepage, menu, visual system, database schema, SEO, billing, contracts, finance, quotes, or customer data changes.
