@@ -1,0 +1,30 @@
+name: Owner feature audit
+
+on:
+  push:
+    branches: [owner-feature-audit]
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Unpack protected pass
+        run: node apply-pass.mjs
+      - name: Inventory generated account and functions
+        shell: bash
+        run: |
+          echo '=== FILE INVENTORY ==='
+          find account netlify/functions assets -maxdepth 2 -type f 2>/dev/null | sort
+          echo '=== ACCOUNT FEATURE TERMS ==='
+          grep -RniE 'owner|staff|business|lead|quote|finance|contract|invoice|receipt|billing|customer|job|pipeline|mtd|ytd|command|intelligence|message' account 2>/dev/null | head -n 700 || true
+          echo '=== FUNCTION FEATURE TERMS ==='
+          grep -RniE 'owner|staff|business|lead|quote|finance|contract|invoice|receipt|billing|customer|job|pipeline|mtd|ytd|command|intelligence|message' netlify/functions 2>/dev/null | head -n 1000 || true
+          echo '=== ACCOUNT ROLE CONDITIONAL CONTEXT ==='
+          grep -RniE -C 5 'roles|isStaff|isOwner|owner|staff' account 2>/dev/null | head -n 1000 || true
