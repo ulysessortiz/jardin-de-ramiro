@@ -1,0 +1,28 @@
+name: Contact source audit
+
+on:
+  push:
+    branches: [contact-source-fix-2026-10-15]
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Unpack protected production source
+        run: node apply-pass.mjs
+      - name: Find public contact source
+        shell: bash
+        run: |
+          echo '=== EXACT OLD NUMBER ==='
+          grep -RniE -C 4 '714[^0-9]{0,4}574[^0-9]{0,4}8095|7145748095' --exclude-dir=.git --exclude-dir=node_modules . || true
+          echo '=== APPROVED NUMBER ==='
+          grep -RniE -C 3 '657[^0-9]{0,4}266[^0-9]{0,4}9726|6572669726' --exclude-dir=.git --exclude-dir=node_modules . || true
+          echo '=== CONTACT LABELS / TRANSLATIONS ==='
+          grep -RniE -C 3 'Call:|Llamar:|Call now|Llamar ahora|Text|Texto|Send a text|Enviar.*texto|tel:|sms:' --exclude-dir=.git --exclude-dir=node_modules . || true
